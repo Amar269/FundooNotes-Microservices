@@ -12,10 +12,12 @@ namespace UserService.Application.Commands.RegisterUser
     {
 
         private readonly IUserRepository _userRepository;
+        private readonly IEmailService _emailService;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository)
+        public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService)
         {
             _userRepository = userRepository;
+            _emailService = emailService;
         }
 
         public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -37,6 +39,7 @@ namespace UserService.Application.Commands.RegisterUser
             };
 
             await _userRepository.AddUserAsync(user);
+            await _emailService.SendWelcomeEmailAsync(user.Email,user.FirstName);
             await _userRepository.SaveChangesAsync();
 
             return true;
