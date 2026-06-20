@@ -9,6 +9,7 @@ using UserService.Infrastructure.Configurations;
 using UserService.Infrastructure.Context;
 using UserService.Infrastructure.Repositories;
 using UserService.Infrastructure.Services;
+using SharedLibrary.Exceptions.GlobalHandlers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -63,6 +64,7 @@ builder.Services.AddAuthorization();
 
 
 
+
 var app = builder.Build();
 
 // Configure pipeline
@@ -73,6 +75,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseGlobalExceptionHandler();
 
 app.UseAuthentication();
 

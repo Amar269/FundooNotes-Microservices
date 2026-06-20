@@ -1,0 +1,16 @@
+﻿using Microsoft.AspNetCore.Builder;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace SharedLibrary.Exceptions.GlobalHandlers
+{
+    public static class ExceptionMiddlewareExtensions
+    {
+        public static IApplicationBuilder UseGlobalExceptionHandler(
+            this IApplicationBuilder app)
+        {
+            return app.UseMiddleware<GlobalExceptionHandler>();
+        }
+    }
+}

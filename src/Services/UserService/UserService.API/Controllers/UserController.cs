@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SharedLibrary.Exceptions.Exceptions;
 using UserService.Application.Authentication;
 using UserService.Application.Commands.RegisterUser;
 using UserService.Application.DTOs;
@@ -54,5 +55,12 @@ namespace UserService.API.Controllers
             return Ok("JWT Authentication Working");
         }
 
+
+        [HttpGet("exception-test")]
+        public IActionResult ExceptionTest()
+        {
+            //throw new Exception("Testing Global Exception Middleware");
+            throw new NotFoundException("User Not Found");
+        }
     }
 }
