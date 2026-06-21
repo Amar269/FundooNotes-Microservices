@@ -5,6 +5,7 @@ using NotesService.Application.Commands.CreateNote;
 using NotesService.Application.Queries.GetAllNotes;
 using System.Security.Claims;
 using NotesService.Application.Queries.GetNoteById;
+using NotesService.Application.Commands.UpdateNote;
 
 namespace NotesService.API.Controllers
 {
@@ -65,6 +66,22 @@ namespace NotesService.API.Controllers
             };
 
             var result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound("Note not found");
+            }
+
+            return Ok(result);
+        }
+
+
+        [HttpPut("{noteId}")]
+        public async Task<IActionResult> UpdateNote(long noteId,UpdateNoteCommand command)
+        {
+            command.NoteId = noteId;
+
+            var result = await _mediator.Send(command);
 
             if (result == null)
             {

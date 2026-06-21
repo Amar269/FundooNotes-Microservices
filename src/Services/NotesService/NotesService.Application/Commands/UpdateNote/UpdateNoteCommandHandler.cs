@@ -7,8 +7,7 @@ using System.Text;
 
 namespace NotesService.Application.Commands.UpdateNote
 {
-    public class UpdateNoteCommandHandler :
-       IRequestHandler<UpdateNoteCommand, NoteResponse?>
+    public class UpdateNoteCommandHandler : IRequestHandler<UpdateNoteCommand, NoteResponse?>
     {
         private readonly INoteRepository _noteRepository;
 
