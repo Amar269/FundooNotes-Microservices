@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using NotesService.Application.Commands.CreateNote;
 using NotesService.Application.Queries.GetAllNotes;
 using System.Security.Claims;
+using NotesService.Application.Queries.GetNoteById;
 
 namespace NotesService.API.Controllers
 {
@@ -53,5 +54,26 @@ namespace NotesService.API.Controllers
 
             return Ok(result);
         }
+
+
+        [HttpGet("{noteId}")]
+        public async Task<IActionResult> GetNoteById(long noteId)
+        {
+            var query = new GetNoteByIdQuery
+            {
+                NoteId = noteId
+            };
+
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+            {
+                return NotFound("Note not found");
+            }
+
+            return Ok(result);
+        }
+
+
     }
 }

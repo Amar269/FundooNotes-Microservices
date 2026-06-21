@@ -9,5 +9,6 @@ namespace NotesService.Application.Queries.GetAllNotes
     public class GetAllNotesQuery : IRequest<List<NoteResponse>>
     {
         public long UserId { get; set; }
+
     }
 }
