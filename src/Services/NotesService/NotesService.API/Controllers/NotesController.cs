@@ -10,6 +10,7 @@ using NotesService.Application.Commands.DeleteNote;
 using NotesService.Application.Commands.ArchiveNote;
 using NotesService.Application.Commands.TrashNote;
 using NotesService.Application.Commands.PinNote;
+using NotesService.Application.Commands.ChangeColor;
 
 
 namespace NotesService.API.Controllers
@@ -171,6 +172,22 @@ namespace NotesService.API.Controllers
             }
 
             return Ok("Pin status updated successfully");
+        }
+
+
+        [HttpPatch("color/{noteId}")]
+        public async Task<IActionResult> ChangeColor( long noteId,ChangeColorCommand command)
+        {
+            command.NoteId = noteId;
+
+            var result = await _mediator.Send(command);
+
+            if (!result)
+            {
+                return NotFound("Note not found");
+            }
+
+            return Ok("Color updated successfully");
         }
     }
 }
