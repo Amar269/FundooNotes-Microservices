@@ -7,6 +7,7 @@ using System.Security.Claims;
 using NotesService.Application.Queries.GetNoteById;
 using NotesService.Application.Commands.UpdateNote;
 using NotesService.Application.Commands.DeleteNote;
+using NotesService.Application.Commands.ArchiveNote;
 
 namespace NotesService.API.Controllers
 {
@@ -110,6 +111,26 @@ namespace NotesService.API.Controllers
             }
 
             return Ok("Note deleted successfully");
+        }
+
+
+
+        [HttpPatch("archive/{noteId}")]
+        public async Task<IActionResult> ArchiveNote(long noteId)
+        {
+            var command = new ArchiveNoteCommand
+            {
+                NoteId = noteId
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result)
+            {
+                return NotFound("Note not found");
+            }
+
+            return Ok("Archive status updated successfully");
         }
 
     }
