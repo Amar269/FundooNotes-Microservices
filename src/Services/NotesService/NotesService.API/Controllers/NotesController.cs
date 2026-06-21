@@ -8,6 +8,7 @@ using NotesService.Application.Queries.GetNoteById;
 using NotesService.Application.Commands.UpdateNote;
 using NotesService.Application.Commands.DeleteNote;
 using NotesService.Application.Commands.ArchiveNote;
+using NotesService.Application.Commands.TrashNote;
 
 namespace NotesService.API.Controllers
 {
@@ -131,6 +132,25 @@ namespace NotesService.API.Controllers
             }
 
             return Ok("Archive status updated successfully");
+        }
+
+
+        [HttpPatch("trash/{noteId}")]
+        public async Task<IActionResult> TrashNote(long noteId)
+        {
+            var command = new TrashNoteCommand
+            {
+                NoteId = noteId
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result)
+            {
+                return NotFound("Note not found");
+            }
+
+            return Ok("Trash status updated successfully");
         }
 
     }

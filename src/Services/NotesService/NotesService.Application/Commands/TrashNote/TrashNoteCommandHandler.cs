@@ -19,6 +19,17 @@ namespace NotesService.Application.Commands.TrashNote
 
         public async Task<bool> Handle( TrashNoteCommand request,CancellationToken cancellationToken)
         {
+            var note = await _noteRepository.GetNoteByIdAsync(request.NoteId);
+
+            if (note == null)
+            {
+                return false;
+            }
+
+            note.IsTrash = !note.IsTrash;
+
+            await _noteRepository.UpdateNoteAsync(note);
+
             return true;
 
         }
