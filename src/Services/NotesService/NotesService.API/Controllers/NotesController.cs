@@ -6,6 +6,7 @@ using NotesService.Application.Queries.GetAllNotes;
 using System.Security.Claims;
 using NotesService.Application.Queries.GetNoteById;
 using NotesService.Application.Commands.UpdateNote;
+using NotesService.Application.Commands.DeleteNote;
 
 namespace NotesService.API.Controllers
 {
@@ -91,6 +92,25 @@ namespace NotesService.API.Controllers
             return Ok(result);
         }
 
+
+
+        [HttpDelete("{noteId}")]
+        public async Task<IActionResult> DeleteNote(long noteId)
+        {
+            var command = new DeleteNoteCommand
+            {
+                NoteId = noteId
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result)
+            {
+                return NotFound("Note not found");
+            }
+
+            return Ok("Note deleted successfully");
+        }
 
     }
 }
