@@ -9,6 +9,8 @@ using NotesService.Application.Commands.UpdateNote;
 using NotesService.Application.Commands.DeleteNote;
 using NotesService.Application.Commands.ArchiveNote;
 using NotesService.Application.Commands.TrashNote;
+using NotesService.Application.Commands.PinNote;
+
 
 namespace NotesService.API.Controllers
 {
@@ -144,7 +146,7 @@ namespace NotesService.API.Controllers
             };
 
             var result = await _mediator.Send(command);
-
+            
             if (!result)
             {
                 return NotFound("Note not found");
@@ -153,5 +155,22 @@ namespace NotesService.API.Controllers
             return Ok("Trash status updated successfully");
         }
 
+        [HttpPatch("pin/{noteId}")]
+        public async Task<IActionResult> PinNote(long noteId)
+        {
+            var command = new PinNoteCommand
+            {
+                NoteId = noteId
+            };
+
+            var result = await _mediator.Send(command);
+
+            if (!result)
+            {
+                return NotFound("Note not found");
+            }
+
+            return Ok("Pin status updated successfully");
+        }
     }
 }

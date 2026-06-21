@@ -21,6 +21,17 @@ namespace NotesService.Application.Commands.PinNote
             PinNoteCommand request,
             CancellationToken cancellationToken)
         {
+
+            var note = await _noteRepository.GetNoteByIdAsync(request.NoteId);
+
+            if (note == null)
+            {
+                return false;
+            }
+
+            note.IsPin = !note.IsPin;
+
+            await _noteRepository.UpdateNoteAsync(note);
             return true;
 
         }
