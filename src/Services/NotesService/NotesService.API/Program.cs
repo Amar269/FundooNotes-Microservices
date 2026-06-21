@@ -6,7 +6,6 @@ using NotesService.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddControllers();
 
 // Swagger
