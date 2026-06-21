@@ -13,9 +13,13 @@ namespace NotesService.Application.DTOs
         public string Description { get; set; } = string.Empty;
 
         public bool IsPin { get; set; }
-
+        
         public bool IsArchive { get; set; }
 
         public bool IsTrash { get; set; }
+
+        public string? Color { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }
