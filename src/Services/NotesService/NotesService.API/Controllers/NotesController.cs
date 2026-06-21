@@ -11,6 +11,8 @@ using NotesService.Application.Commands.ArchiveNote;
 using NotesService.Application.Commands.TrashNote;
 using NotesService.Application.Commands.PinNote;
 using NotesService.Application.Commands.ChangeColor;
+using NotesService.Application.Commands.AddReminder;
+
 
 
 namespace NotesService.API.Controllers
@@ -188,6 +190,21 @@ namespace NotesService.API.Controllers
             }
 
             return Ok("Color updated successfully");
+        }
+
+        [HttpPatch("reminder/{noteId}")]
+        public async Task<IActionResult> AddReminder(long noteId,AddReminderCommand command)
+        {
+            command.NoteId = noteId;
+
+            var result = await _mediator.Send(command);
+
+            if (!result)
+            {
+                return NotFound("Note not found");
+            }
+
+            return Ok("Reminder added successfully");
         }
     }
 }
