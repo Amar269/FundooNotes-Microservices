@@ -1,14 +1,39 @@
-﻿using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MediatR;
+using NotesService.Application.Interfaces;
 
 namespace NotesService.Application.Commands.ChangeColor
 {
-    public class ChangeColorCommand : IRequest<bool>
+    public class ChangeColorCommandHandler :
+        IRequestHandler<ChangeColorCommand, bool>
     {
-        public long NoteId { get; set; }
+        private readonly INoteRepository _noteRepository;
 
-        public string Color { get; set; }
+        public ChangeColorCommandHandler(
+            INoteRepository noteRepository)
+        {
+            _noteRepository = noteRepository;
+        }
+
+        public async Task<bool> Handle(
+            ChangeColorCommand request,
+            CancellationToken cancellationToken)
+        {
+            var note = await _noteRepository
+                .GetNoteByIdAsync(request.NoteId);
+
+            if (note == null)
+            {
+                return false;
+            }
+
+            note.Color = request.Color;
+
+            await _noteRepository.UpdateNoteAsync(note);
+
+            return true;
+        }
     }
 }
