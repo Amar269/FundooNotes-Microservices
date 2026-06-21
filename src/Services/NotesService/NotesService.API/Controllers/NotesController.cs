@@ -1,7 +1,8 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotesService.Application.Commands.CreateNote;
-using Microsoft.AspNetCore.Authorization;
+using NotesService.Application.Queries.GetAllNotes;
 using System.Security.Claims;
 
 namespace NotesService.API.Controllers
@@ -37,6 +38,20 @@ namespace NotesService.API.Controllers
 
             return Ok(result);
 
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllNotes(long userId)
+        {
+            var query = new GetAllNotesQuery
+            {
+                UserId = userId
+            };
+
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
         }
     }
 }

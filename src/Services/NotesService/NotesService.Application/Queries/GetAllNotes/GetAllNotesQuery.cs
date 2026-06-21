@@ -8,6 +8,6 @@ namespace NotesService.Application.Queries.GetAllNotes
 {
     public class GetAllNotesQuery : IRequest<List<NoteResponse>>
     {
-        public int UserId { get; set; }
+        public long UserId { get; set; }
     }
 }
