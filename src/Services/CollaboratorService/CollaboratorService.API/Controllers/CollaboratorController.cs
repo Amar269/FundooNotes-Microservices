@@ -5,6 +5,7 @@ using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 using CollaboratorService.Application.Queries.GetSharedNotes;
 using CollaboratorService.Application.Queries.GetCollaboratorById;
+using CollaboratorService.Application.Commands.RemoveCollaborator;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -80,6 +81,19 @@ namespace CollaboratorService.API.Controllers
             {
                 return NotFound("Collaborator not found");
             }
+
+            return Ok(result);
+        }
+
+
+        [HttpDelete("{collaboratorId}")]
+        public async Task<IActionResult> RemoveCollaborator(long collaboratorId)
+        {
+            var result = await _mediator.Send(
+                new RemoveCollaboratorCommand
+                {
+                    CollaboratorId = collaboratorId
+                });
 
             return Ok(result);
         }
