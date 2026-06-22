@@ -1,9 +1,10 @@
 ﻿using CollaboratorService.Application.Commands.AddCollaborator;
 using CollaboratorService.Application.DTOs;
 using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
+using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
+using CollaboratorService.Application.Queries.GetSharedNotes;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 
 namespace CollaboratorService.API.Controllers
 {
@@ -46,6 +47,19 @@ namespace CollaboratorService.API.Controllers
             };
 
             var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("shared/{userId}")]
+        public async Task<IActionResult> GetSharedNotes(long userId)
+        {
+            var result = await _mediator.Send(
+                new GetSharedNotesQuery
+                {
+                    UserId = userId
+                });
 
             return Ok(result);
         }
