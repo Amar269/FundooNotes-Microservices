@@ -24,6 +24,18 @@
       ],
       "UpstreamPathTemplate": "/gateway/notes/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Collaborator/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7249
+        }
+      ],
+      "UpstreamPathTemplate": "/gateway/collaborator/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {
