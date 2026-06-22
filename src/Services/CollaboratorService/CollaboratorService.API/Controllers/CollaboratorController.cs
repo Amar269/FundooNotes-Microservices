@@ -1,8 +1,10 @@
 ﻿using CollaboratorService.Application.Commands.AddCollaborator;
 using CollaboratorService.Application.DTOs;
+using CollaboratorService.Application.Queries.GetCollaboratorById;
 using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 using CollaboratorService.Application.Queries.GetSharedNotes;
+using CollaboratorService.Application.Queries.GetCollaboratorById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,6 +62,24 @@ namespace CollaboratorService.API.Controllers
                 {
                     UserId = userId
                 });
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("{collaboratorId}")]
+        public async Task<IActionResult> GetCollaboratorById(long collaboratorId)
+        {
+            var result = await _mediator.Send(
+                new GetCollaboratorByIdQuery
+                {
+                    CollaboratorId = collaboratorId
+                });
+
+            if (result == null)
+            {
+                return NotFound("Collaborator not found");
+            }
 
             return Ok(result);
         }
