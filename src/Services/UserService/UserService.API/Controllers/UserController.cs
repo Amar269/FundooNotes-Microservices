@@ -5,6 +5,7 @@ using SharedLibrary.Exceptions.Exceptions;
 using UserService.Application.Authentication;
 using UserService.Application.Commands.RegisterUser;
 using UserService.Application.DTOs;
+using UserService.Application.Queries.GetUserByEmail;
 
 
 namespace UserService.API.Controllers
@@ -61,6 +62,16 @@ namespace UserService.API.Controllers
         {
             //throw new Exception("Testing Global Exception Middleware");
             throw new NotFoundException("User Not Found");
+        }
+
+
+        [HttpGet("email/{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email)
+        {
+            var result = await _mediator.Send(
+                new GetUserByEmailQuery(email));
+
+            return Ok(result);
         }
     }
 }
