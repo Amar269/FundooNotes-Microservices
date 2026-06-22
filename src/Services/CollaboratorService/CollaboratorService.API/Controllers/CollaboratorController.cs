@@ -1,7 +1,9 @@
 ﻿using CollaboratorService.Application.Commands.AddCollaborator;
 using CollaboratorService.Application.DTOs;
+using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 
 namespace CollaboratorService.API.Controllers
 {
@@ -30,6 +32,20 @@ namespace CollaboratorService.API.Controllers
 
             var result =
                 await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+
+        [HttpGet("note/{noteId}")]
+        public async Task<IActionResult> GetCollaboratorsByNoteId(long noteId)
+        {
+            var query = new GetCollaboratorsByNoteIdQuery
+            {
+                NoteId = noteId
+            };
+
+            var result = await _mediator.Send(query);
 
             return Ok(result);
         }
