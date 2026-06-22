@@ -3,6 +3,8 @@ using CollaboratorService.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using MediatR;
 using CollaboratorService.Application.Commands.AddCollaborator;
+using CollaboratorService.Application.Interfaces;
+using CollaboratorService.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +26,13 @@ builder.Services.AddMediatR(
     typeof(AddCollaboratorCommandHandler).Assembly
 );
 
-
-
 builder.Services.AddInfrastructure(builder.Configuration);
+
+builder.Services.AddHttpClient<IUserServiceClient, UserServiceClient>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7221/");
+});
+
 
 var app = builder.Build();
 
