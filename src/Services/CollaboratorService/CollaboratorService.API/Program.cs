@@ -2,6 +2,7 @@ using CollaboratorService.Application;
 using CollaboratorService.Infrastructure.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using MediatR;
+using CollaboratorService.Application.Commands.AddCollaborator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +20,9 @@ builder.Services.AddSwaggerGen(options =>
         });
 });
 
-//builder.Services.AddMediatR(
-//    typeof(AddCollaboratorCommandHandler).Assembly
-//);
+builder.Services.AddMediatR(
+    typeof(AddCollaboratorCommandHandler).Assembly
+);
 
 
 
