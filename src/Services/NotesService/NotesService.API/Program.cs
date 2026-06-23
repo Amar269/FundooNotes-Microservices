@@ -25,7 +25,8 @@ builder.Services.AddDbContext<NotesDbContext>(options =>
         builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
+
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
