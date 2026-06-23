@@ -5,6 +5,8 @@ using System.Text;
 using UserService.Application.Interfaces;
 using UserService.Domain.Entities;
 using BCrypt.Net;
+using SharedLibrary.Messaging.Interfaces;
+using SharedLibrary.Contracts.Events;
 
 namespace UserService.Application.Commands.RegisterUser
 {
@@ -13,11 +15,13 @@ namespace UserService.Application.Commands.RegisterUser
 
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
+        private readonly IRabbitMqPublisher _rabbitMqPublisher;
 
-        public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService)
+        public RegisterUserCommandHandler(IUserRepository userRepository, IEmailService emailService , IRabbitMqPublisher rabbitMqPublisher)
         {
             _userRepository = userRepository;
             _emailService = emailService;
+            _rabbitMqPublisher = rabbitMqPublisher;
         }
 
         public async Task<bool> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -41,6 +45,15 @@ namespace UserService.Application.Commands.RegisterUser
             await _userRepository.AddUserAsync(user);
             await _emailService.SendWelcomeEmailAsync(user.Email,user.FirstName);
             await _userRepository.SaveChangesAsync();
+
+            var userRegisteredEvent = new UserRegisteredEvent
+            {
+                UserId = user.UserId,
+                FullName = $"{user.FirstName} {user.LastName}",
+                Email = user.Email
+            };
+            await _rabbitMqPublisher.PublishAsync("user_registered_queue",userRegisteredEvent);
+
 
             return true;
 
