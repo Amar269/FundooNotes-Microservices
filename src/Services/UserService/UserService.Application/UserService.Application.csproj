@@ -1,6 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedLibrary\SharedLibrary.Contracts\SharedLibrary.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\SharedLibrary\SharedLibrary.Messaging\SharedLibrary.Messaging.csproj" />
     <ProjectReference Include="..\UserService.Domain\UserService.Domain.csproj" />
   </ItemGroup>
 

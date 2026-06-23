@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\SharedLibrary\SharedLibrary.Contracts\SharedLibrary.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\SharedLibrary\SharedLibrary.Messaging\SharedLibrary.Messaging.csproj" />
     <ProjectReference Include="..\NotesService.Application\NotesService.Application.csproj" />
     <ProjectReference Include="..\NotesService.Domain\NotesService.Domain.csproj" />
   </ItemGroup>
