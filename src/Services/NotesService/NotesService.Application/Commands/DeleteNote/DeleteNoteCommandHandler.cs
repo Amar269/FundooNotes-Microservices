@@ -9,11 +9,13 @@ namespace NotesService.Application.Commands.DeleteNote
     public class DeleteNoteCommandHandler : IRequestHandler<DeleteNoteCommand, bool>
     {
         private readonly INoteRepository _noteRepository;
+        private readonly ICacheService _cacheService;
 
-        public DeleteNoteCommandHandler(
-            INoteRepository noteRepository)
+        public DeleteNoteCommandHandler( INoteRepository noteRepository , ICacheService cacheService)
         {
             _noteRepository = noteRepository;
+            _cacheService = cacheService;
+
         }
 
         public async Task<bool> Handle(DeleteNoteCommand request, CancellationToken cancellationToken)
@@ -26,6 +28,8 @@ namespace NotesService.Application.Commands.DeleteNote
             }
 
             await _noteRepository.DeleteNoteAsync(note);
+            var cacheKey = $"Notes_{note.UserId}";
+            await _cacheService.RemoveAsync(cacheKey);
 
             return true;
             

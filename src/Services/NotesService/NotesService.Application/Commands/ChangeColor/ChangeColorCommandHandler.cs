@@ -10,11 +10,13 @@ namespace NotesService.Application.Commands.ChangeColor
         IRequestHandler<ChangeColorCommand, bool>
     {
         private readonly INoteRepository _noteRepository;
+        private readonly ICacheService _cacheService;
 
         public ChangeColorCommandHandler(
-            INoteRepository noteRepository)
+            INoteRepository noteRepository , ICacheService cacheService)
         {
             _noteRepository = noteRepository;
+            _cacheService = cacheService;
         }
 
         public async Task<bool> Handle(
@@ -32,6 +34,9 @@ namespace NotesService.Application.Commands.ChangeColor
             note.Color = request.Color;
 
             await _noteRepository.UpdateNoteAsync(note);
+
+            var cacheKey = $"Notes_{note.UserId}";
+            await _cacheService.RemoveAsync(cacheKey);
 
             return true;
         }

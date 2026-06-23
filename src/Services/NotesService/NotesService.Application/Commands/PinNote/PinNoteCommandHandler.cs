@@ -6,15 +6,15 @@ using System.Text;
 
 namespace NotesService.Application.Commands.PinNote
 {
-    public class PinNoteCommandHandler :
-        IRequestHandler<PinNoteCommand, bool>
+    public class PinNoteCommandHandler : IRequestHandler<PinNoteCommand, bool>
     {
         private readonly INoteRepository _noteRepository;
+        private readonly ICacheService _cacheService;
 
-        public PinNoteCommandHandler(
-            INoteRepository noteRepository)
+        public PinNoteCommandHandler( INoteRepository noteRepository , ICacheService cacheService)
         {
             _noteRepository = noteRepository;
+            _cacheService = cacheService;
         }
 
         public async Task<bool> Handle(
@@ -32,6 +32,10 @@ namespace NotesService.Application.Commands.PinNote
             note.IsPin = !note.IsPin;
 
             await _noteRepository.UpdateNoteAsync(note);
+
+            var cacheKey = $"Notes_{note.UserId}";
+            await _cacheService.RemoveAsync(cacheKey);
+
             return true;
 
         }

@@ -10,10 +10,12 @@ namespace NotesService.Application.Commands.UpdateNote
     public class UpdateNoteCommandHandler : IRequestHandler<UpdateNoteCommand, NoteResponse?>
     {
         private readonly INoteRepository _noteRepository;
+        private readonly ICacheService _cacheService;
 
-        public UpdateNoteCommandHandler(INoteRepository noteRepository)
+        public UpdateNoteCommandHandler(INoteRepository noteRepository, ICacheService cacheService)
         {
             _noteRepository = noteRepository;
+            _cacheService = cacheService;
         }
 
         public async Task<NoteResponse?> Handle(
@@ -34,6 +36,9 @@ namespace NotesService.Application.Commands.UpdateNote
             note.UpdatedAt = DateTime.UtcNow;
 
             await _noteRepository.UpdateNoteAsync(note);
+
+            var cacheKey = $"Notes_{note.UserId}";
+            await _cacheService.RemoveAsync(cacheKey);
 
             return new NoteResponse
             {
