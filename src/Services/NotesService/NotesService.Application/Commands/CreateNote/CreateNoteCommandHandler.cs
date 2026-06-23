@@ -5,14 +5,15 @@ using NotesService.Domain.Entities;
 
 namespace NotesService.Application.Commands.CreateNote;
 
-public class CreateNoteCommandHandler
-    : IRequestHandler<CreateNoteCommand, NoteResponse>
+public class CreateNoteCommandHandler : IRequestHandler<CreateNoteCommand, NoteResponse>
 {
     private readonly INoteRepository _noteRepository;
+    private readonly ICacheService _cacheService;
 
-    public CreateNoteCommandHandler(INoteRepository noteRepository)
+    public CreateNoteCommandHandler(INoteRepository noteRepository , ICacheService cacheService)
     {
         _noteRepository = noteRepository;
+        _cacheService = cacheService;
     }
 
     public async Task<NoteResponse> Handle(
@@ -29,9 +30,9 @@ public class CreateNoteCommandHandler
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
-
-        var createdNote =
-            await _noteRepository.CreateNoteAsync(note);
+        var cacheKey = $"Notes_{request.UserId}";
+        await _cacheService.RemoveAsync(cacheKey);
+        var createdNote = await _noteRepository.CreateNoteAsync(note);
 
         return new NoteResponse
         {
