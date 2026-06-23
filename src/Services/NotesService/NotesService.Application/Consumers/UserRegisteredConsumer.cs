@@ -22,9 +22,9 @@ public class UserRegisteredConsumer
         {
             UserId = message.UserId,
 
-            Title = "👋 Welcome to Fundoo Notes",
+            Title = "Welcome to Fundoo Notes",
 
-            Description = "Welcome aboard! This note was created automatically for you. Start organizing your ideas, reminders and important tasks here. Happy Note Taking! 🚀",
+            Description = "Welcome aboard! This note was created automatically for you. Start organizing your ideas, reminders and important tasks here. Happy Note Taking!",
 
             Color = "Yellow",
 

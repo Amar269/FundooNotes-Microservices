@@ -1,10 +1,11 @@
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using NotesService.Application.Commands.CreateNote;
 using NotesService.Infrastructure.Context;
 using NotesService.Infrastructure.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using NotesService.Infrastructure.Messaging;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +27,7 @@ builder.Services.AddDbContext<NotesDbContext>(options =>
 });
 
 builder.Services.AddInfrastructure(builder.Configuration);
-
+builder.Services.AddHostedService<RabbitMqConsumerService>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

@@ -1,9 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using NotesService.Application.Interfaces;
-using NotesService.Infrastructure.Repositories;
+﻿using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using NotesService.Application.Consumers;
+using NotesService.Application.Interfaces;
 using NotesService.Infrastructure.Caching;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
+using NotesService.Infrastructure.Messaging;
+using NotesService.Infrastructure.Repositories;
 
 
 namespace NotesService.Infrastructure.DependencyInjection;
@@ -22,6 +24,8 @@ public static class DependencyInjection
         });
 
         services.AddScoped<ICacheService, CacheService>();
+        services.AddScoped<UserRegisteredConsumer>();
+        
 
         return services;
     }
