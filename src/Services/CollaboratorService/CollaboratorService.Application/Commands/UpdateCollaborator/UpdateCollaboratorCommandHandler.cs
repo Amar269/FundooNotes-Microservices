@@ -1,25 +1,24 @@
-﻿using CollaboratorService.Application.Interfaces;
-using CollaboratorService.Domain.Entities;
-using MediatR;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using CollaboratorService.Application.Interfaces;
+using MediatR;
 
-namespace CollaboratorService.Application.Commands.RemoveCollaborator
+namespace CollaboratorService.Application.Commands.UpdateCollaborator
 {
-    public class RemoveCollaboratorCommandHandler
-        : IRequestHandler<RemoveCollaboratorCommand, string>
+    public class UpdateCollaboratorCommandHandler
+        : IRequestHandler<UpdateCollaboratorCommand, string>
     {
         private readonly ICollaboratorRepository _repository;
 
-        public RemoveCollaboratorCommandHandler(
+        public UpdateCollaboratorCommandHandler(
             ICollaboratorRepository repository)
         {
             _repository = repository;
         }
 
         public async Task<string> Handle(
-            RemoveCollaboratorCommand request,
+            UpdateCollaboratorCommand request,
             CancellationToken cancellationToken)
         {
             var collaborator =
@@ -31,9 +30,13 @@ namespace CollaboratorService.Application.Commands.RemoveCollaborator
                 throw new Exception("Collaborator not found");
             }
 
-            await _repository.RemoveCollaboratorAsync(request.CollaboratorId);
+            collaborator.Permission =
+                request.Request.Permission;
 
-            return "Collaborator removed successfully";
+            await _repository.UpdateCollaboratorAsync(
+                collaborator);
+
+            return "Collaborator permission updated successfully";
         }
     }
 }

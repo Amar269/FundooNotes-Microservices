@@ -1,11 +1,14 @@
 ﻿using CollaboratorService.Application.Commands.AddCollaborator;
+using CollaboratorService.Application.Commands.RemoveCollaborator;
+using CollaboratorService.Application.Commands.UpdateCollaborator;
 using CollaboratorService.Application.DTOs;
+using CollaboratorService.Application.Queries.GetCollaboratorById;
 using CollaboratorService.Application.Queries.GetCollaboratorById;
 using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 using CollaboratorService.Application.Queries.GetCollaboratorsByNoteId;
 using CollaboratorService.Application.Queries.GetSharedNotes;
-using CollaboratorService.Application.Queries.GetCollaboratorById;
-using CollaboratorService.Application.Commands.RemoveCollaborator;
+using CollaboratorService.Application.Commands.UpdateCollaborator;
+using CollaboratorService.Application.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -93,6 +96,20 @@ namespace CollaboratorService.API.Controllers
                 new RemoveCollaboratorCommand
                 {
                     CollaboratorId = collaboratorId
+                });
+
+            return Ok(result);
+        }
+
+        [HttpPut("{collaboratorId}")]
+        public async Task<IActionResult> UpdateCollaborator( long collaboratorId,
+    [FromBody] UpdateCollaboratorDto request)
+        {
+            var result = await _mediator.Send(
+                new UpdateCollaboratorCommand
+                {
+                    CollaboratorId = collaboratorId,
+                    Request = request
                 });
 
             return Ok(result);
