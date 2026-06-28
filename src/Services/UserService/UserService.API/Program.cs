@@ -2,6 +2,10 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SharedLibrary.Exceptions.GlobalHandlers;
+using SharedLibrary.Messaging.Configuration;
+using SharedLibrary.Messaging.Interfaces;
+using SharedLibrary.Messaging.Services;
 using System.Text;
 using UserService.Application.Commands.RegisterUser;
 using UserService.Application.Interfaces;
@@ -9,7 +13,6 @@ using UserService.Infrastructure.Configurations;
 using UserService.Infrastructure.Context;
 using UserService.Infrastructure.Repositories;
 using UserService.Infrastructure.Services;
-using SharedLibrary.Exceptions.GlobalHandlers;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,12 +34,13 @@ builder.Services.AddDbContext<UserDbContext>(options =>
 builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings"));
 
-
-
+builder.Services.Configure<RabbitMqSettings>(
+    builder.Configuration.GetSection("RabbitMqSettings"));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IJwtService , JwtService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IRabbitMqPublisher, RabbitMqPublisher>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

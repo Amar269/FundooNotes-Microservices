@@ -34,8 +34,11 @@ namespace NotesService.Infrastructure.Messaging
             };
 
             using var connection = await factory.CreateConnectionAsync();
+
             using var channel = await connection.CreateChannelAsync();
-            await channel.QueueDeclareAsync(queue: "user.registered",durable: true,exclusive: false,autoDelete: false,arguments: null);
+
+            await channel.QueueDeclareAsync(queue: "user_registered_queue", durable: true,exclusive: false,autoDelete: false,arguments: null);
+           
             var consumer = new AsyncEventingBasicConsumer(channel);
 
             consumer.ReceivedAsync += async (sender, eventArgs) =>
@@ -58,7 +61,9 @@ namespace NotesService.Infrastructure.Messaging
                     await userConsumer.Consume(message);
 
                 }
+               
             };
+            await channel.BasicConsumeAsync(queue: "user_registered_queue", autoAck: true, consumer: consumer);
             await Task.Delay( Timeout.Infinite,stoppingToken);
         }
     }

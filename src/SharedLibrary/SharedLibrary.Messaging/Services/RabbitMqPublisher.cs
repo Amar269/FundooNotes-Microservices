@@ -28,11 +28,9 @@ public class RabbitMqPublisher : IRabbitMqPublisher
             Password = _settings.Password
         };
 
-        using var connection =
-            await factory.CreateConnectionAsync();
+        using var connection = await factory.CreateConnectionAsync();
 
-        using var channel =
-            await connection.CreateChannelAsync();
+        using var channel =  await connection.CreateChannelAsync();
 
         await channel.QueueDeclareAsync(
             queue: queueName,

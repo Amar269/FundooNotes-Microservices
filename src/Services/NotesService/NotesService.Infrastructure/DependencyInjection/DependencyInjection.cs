@@ -6,7 +6,8 @@ using NotesService.Application.Interfaces;
 using NotesService.Infrastructure.Caching;
 using NotesService.Infrastructure.Messaging;
 using NotesService.Infrastructure.Repositories;
-
+using SharedLibrary.Messaging.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace NotesService.Infrastructure.DependencyInjection;
 
@@ -17,10 +18,11 @@ public static class DependencyInjection
     {
         services.AddScoped<INoteRepository, NoteRepository>();
 
+        services.Configure<RabbitMqSettings>( configuration.GetSection("RabbitMqSettings"));
+
         services.AddStackExchangeRedisCache(options =>
         {
-            options.Configuration =
-                configuration["Redis:ConnectionString"];
+            options.Configuration = configuration["Redis:ConnectionString"];
         });
 
         services.AddScoped<ICacheService, CacheService>();
