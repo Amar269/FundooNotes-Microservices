@@ -40,7 +40,7 @@ This separation reduces coupling between services and makes the overall system e
 ### 🧱 Service Layering
 
 Each service follows a layered structure:
----text
+```text
 API
  ↓
 Application
@@ -50,7 +50,7 @@ Domain
 Infrastructure
  ↓
 Database / External Services
-###
+```
 ## 🏗️ System Architecture
 
 The system is organized around multiple independent microservices with **Ocelot API Gateway** as the entry point for client requests.
@@ -101,7 +101,7 @@ Response
 API Gateway
   ↑
 Client
-
+```
 <img width="2816" height="1536" alt="reuest flow _diagram" src="https://github.com/user-attachments/assets/7b181612-9067-4a0c-8755-6fe07b2a12f6" />
 
 ## 🔗 Service-to-Service Communication
@@ -127,7 +127,7 @@ User Database
       │ HTTP Response
       ▼
 Notes Service
-
+```
 <img width="2762" height="1504" alt="service communication _diagram" src="https://github.com/user-attachments/assets/58a8c7fb-453d-4d3c-90e1-7d5125be9ad7" />
 
 ## 🗄️ Database Design
@@ -182,7 +182,7 @@ Collaborator
  │
  │
 User
-
+```
 
 <img width="2816" height="1536" alt="er diagram" src="https://github.com/user-attachments/assets/2a034e94-265c-4535-9df3-4a696d565e74" />
 
@@ -228,7 +228,7 @@ FundooNotes-Microservices
 │   └── Configuration
 │
 └── 📄 FundooNotes.slnx
-
+```
 
 ## ✨ Application Features
 
