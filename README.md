@@ -271,5 +271,45 @@ FundooNotes-Microservices
 - Password hashing using BCrypt
 - Protected API endpoints through authorization
 
+## 🛠️ Technology Stack
+
+| Category | Technologies |
+|---|---|
+| **Backend** | C#, ASP.NET Core 8, ASP.NET Core Web API |
+| **Architecture** | Microservices, Clean Architecture, CQRS, MediatR, Repository Pattern, Dependency Injection |
+| **API Gateway** | Ocelot |
+| **Database** | Microsoft SQL Server, Entity Framework Core, LINQ |
+| **Messaging** | RabbitMQ |
+| **Caching** | Redis, IDistributedCache |
+| **Communication** | HttpClient, RESTful APIs |
+| **Security** | JWT Authentication, BCrypt |
+| **Email** | SMTP |
+| **Containerization** | Docker |
+| **Testing & Tools** | Postman, Swagger/OpenAPI, Visual Studio, Git, GitHub |
+
+## 🧩 Infrastructure & Supporting Components
+
+The application uses supporting infrastructure components to handle caching, messaging, email communication, API routing, and containerization.
+
+- **Redis** – Provides distributed caching for frequently accessed note data.
+- **RabbitMQ** – Handles asynchronous event-driven communication between microservices.
+- **SMTP** – Supports application email communication.
+- **Ocelot** – Provides centralized API routing and request forwarding.
+- **Docker** – Runs supporting infrastructure components in isolated containers.
+
+## 🔐 Authentication & Security
+
+The application implements secure authentication and authorization using:
+
+- **JWT Authentication** – Secures protected REST APIs.
+- **BCrypt** – Securely hashes user passwords before storing them.
+- **Authorization** – Restricts protected endpoints to authenticated users.
+- **HTTPS** – Secures communication between clients and services.
+- **Service Isolation** – Microservices access their own data through defined APIs rather than directly accessing another service's data.
+
+## 👨‍💻 Author
+
+**Amarnath Kolla**
+
 
 
