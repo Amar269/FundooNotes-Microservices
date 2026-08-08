@@ -40,7 +40,7 @@ This separation reduces coupling between services and makes the overall system e
 ### 🧱 Service Layering
 
 Each service follows a layered structure:
-
+---text
 API
  ↓
 Application
@@ -50,7 +50,7 @@ Domain
 Infrastructure
  ↓
 Database / External Services
-
+###
 ## 🏗️ System Architecture
 
 The system is organized around multiple independent microservices with **Ocelot API Gateway** as the entry point for client requests.
