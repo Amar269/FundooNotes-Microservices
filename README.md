@@ -41,7 +41,6 @@ This separation reduces coupling between services and makes the overall system e
 
 Each service follows a layered structure:
 
-```text
 API
  ↓
 Application
